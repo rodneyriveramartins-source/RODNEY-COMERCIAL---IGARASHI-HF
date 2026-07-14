@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HUB — Igarashi HF</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    --dark: #051F20;
+    --mid: #8EB69B;
+    --light: #DAF1DE;
+    --gold: #D9C988;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: linear-gradient(180deg, var(--dark) 0%, #0A2E2F 100%);
+    color: var(--light);
+    min-height: 100vh;
+    padding: 24px 16px 60px;
+  }
+
+  .wrap { max-width: 720px; margin: 0 auto; }
+
+  header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  .logo-chip {
+    background: #fff;
+    border-radius: 14px;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 14px rgba(0,0,0,.3);
+  }
+
+  header h1 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--gold);
+    letter-spacing: .3px;
+  }
+
+  header p {
+    font-size: 13px;
+    color: var(--mid);
+    margin-top: 2px;
+  }
+
+  .section {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(142,182,155,0.25);
+    border-radius: 16px;
+    padding: 18px 18px 8px;
+    margin-bottom: 16px;
+  }
+
+  .section h2 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .row .label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--mid);
+    width: 100%;
+  }
+
+  a.pill {
+    display: inline-block;
+    background: rgba(142,182,155,0.14);
+    border: 1px solid rgba(142,182,155,0.4);
+    color: var(--light);
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background .15s ease, transform .1s ease;
+  }
+
+  a.pill:active { transform: scale(0.97); }
+
+  a.pill.gold {
+    background: var(--gold);
+    color: var(--dark);
+    font-weight: 700;
+    border-color: var(--gold);
+  }
+
+  a.pill.wide { display: flex; width: 100%; justify-content: space-between; align-items: center; }
+
+  .note {
+    font-size: 12px;
+    color: var(--mid);
+    opacity: .8;
+    padding: 8px 0 14px;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 11px;
+    color: var(--mid);
+    opacity: .6;
+    margin-top: 30px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="logo-chip">🥔</div>
+    <div>
+      <h1>HUB — IGARASHI HF</h1>
+      <p>Central de operação comercial · Galpão 2.6, CEASA Recife</p>
+    </div>
+  </header>
+
+  <div class="section">
+    <h2>🤖 Project (chat com o Claude)</h2>
+    <div class="row">
+      <a class="pill gold wide" href="https://claude.ai/cowork/project/019f48a5-58c0-736e-9303-4b915e1c98dc" target="_blank">Abrir Comando Igarashi HF →</a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📊 Relatórios — Venda · Compra · Estoque · Preço · Outros</h2>
+    <div class="row">
+      <span class="label">Venda</span>
+      <a class="pill" href="https://docs.google.com/spreadsheets/d/1MikzUBMpCEoVqkCc5ADFyTsS7TzOHZ1F13ruINTZlYs/edit" target="_blank">CONTROLE — aba VENDAS</a>
+    </div>
+    <div class="row">
+      <span class="label">Compra / Carga</span>
+      <a class="pill" href="https://app.notion.com/p/a368107fa9ef4efb88fcb7f9df2c9de1" target="_blank">🚛 Cargas (Notion)</a>
+    </div>
+    <div class="row">
+      <span class="label">Estoque</span>
+      <a class="pill" href="https://app.notion.com/p/a368107fa9ef4efb88fcb7f9df2c9de1?v=399afc8180c381afb9d4000c8a926f3c" target="_blank">📦 Estoque Box — Em venda</a>
+    </div>
+    <div class="row">
+      <span class="label">Preço</span>
+      <a class="pill" href="https://app.notion.com/p/95ea2cd4e8a14263996fd6e02e658ddb" target="_blank">🌎 Preços na Origem</a>
+      <a class="pill" href="https://app.notion.com/p/e9e08dabcc9a46399b679021eff6023c" target="_blank">📋 Cotações</a>
+    </div>
+    <div class="row">
+      <span class="label">Outros</span>
+      <a class="pill" href="https://drive.google.com/drive/folders/1UrKwzeQvk4974vRXHCBfjaRV1mnzFZbv" target="_blank">📁 02_RELATORIOS (Drive)</a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🗄️ Banco de Dados — Logística · Clientes · Fornecedores · Outros</h2>
+    <div class="row">
+      <span class="label">Logística</span>
+      <a class="pill" href="https://app.notion.com/p/a368107fa9ef4efb88fcb7f9df2c9de1" target="_blank">🚛 Cargas</a>
+      <a class="pill" href="https://app.notion.com/p/d517fc9d2c2a40c2b811e0bdf097ed64" target="_blank">🚚 Motoristas</a>
+    </div>
+    <div class="row">
+      <span class="label">Clientes</span>
+      <a class="pill" href="https://app.notion.com/p/9923996694b84d119fa0fc76525d0d35" target="_blank">🏢 Clientes</a>
+      <a class="pill" href="https://app.notion.com/p/006b3e0bb6474dd49ed3e196240ae374" target="_blank">📇 Importação Clientes+Vendedor</a>
+    </div>
+    <div class="row">
+      <span class="label">Fornecedores</span>
+      <a class="pill" href="https://app.notion.com/p/b062dc3fae14405091f49cc5bb4d7458" target="_blank">🌾 Fornecedores</a>
+    </div>
+    <div class="row">
+      <span class="label">Outros</span>
+      <a class="pill" href="https://app.notion.com/p/efb28d17995e4322ad4f6f2d6088c9b9" target="_blank">📥 Caixa de Entrada</a>
+      <a class="pill" href="https://app.notion.com/p/7325ee56485d463b8d7791cd02a43863" target="_blank">💰 Pendências Financeiras</a>
+      <a class="pill" href="https://app.notion.com/p/9de6c53d46d44653935d8fc9a70e13e0" target="_blank">✅ Tarefas</a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🚛 Lista de Carregamento</h2>
+    <div class="row">
+      <a class="pill wide" href="https://app.notion.com/p/a368107fa9ef4efb88fcb7f9df2c9de1?v=399afc8180c3819a82e2000c88ab4f38" target="_blank">📋 RESUMO IAGO — Batata →</a>
+    </div>
+    <div class="row">
+      <a class="pill wide" href="https://app.notion.com/p/a368107fa9ef4efb88fcb7f9df2c9de1?v=399afc8180c38180af04000c0940a439" target="_blank">🚚 EXPEDIÇÃO — A caminho →</a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📋 Controle de Carregamento — fonte de verdade das transações</h2>
+    <div class="row">
+      <a class="pill gold wide" href="https://docs.google.com/spreadsheets/d/1MikzUBMpCEoVqkCc5ADFyTsS7TzOHZ1F13ruINTZlYs/edit" target="_blank">Abrir a planilha →</a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📁 Drive — pastas oficiais</h2>
+    <div class="row">
+      <a class="pill" href="https://drive.google.com/drive/folders/1HZTRNGGH-kIRAH4bNfyWnhMeUOt2hV4J" target="_blank">Raiz IGARASHI HF 2026</a>
+    </div>
+    <div class="row">
+      <a class="pill" href="https://drive.google.com/drive/folders/1fJPsTC2zhL1mcx07azj4xebEx6GV_MLY" target="_blank">01_OPERACIONAL</a>
+      <a class="pill" href="https://drive.google.com/drive/folders/1UrKwzeQvk4974vRXHCBfjaRV1mnzFZbv" target="_blank">02_RELATORIOS</a>
+      <a class="pill" href="https://drive.google.com/drive/folders/1VFmtn6EOCcxy4TjBqH4N0rn_jDQPk0-M" target="_blank">03_MODELOS</a>
+      <a class="pill" href="https://drive.google.com/drive/folders/1cC-jjjW1HRpGF-jrIG5IrJAmU-0vQ7hE" target="_blank">04_DOCUMENTOS</a>
+      <a class="pill" href="https://drive.google.com/drive/folders/1bH2sG4m7C297kgjCh_BE4cfOV3SO0QzI" target="_blank">99_ARQUIVO</a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🎯 Painel completo (Notion)</h2>
+    <div class="row">
+      <a class="pill wide" href="https://app.notion.com/p/366afc8180c3817d8c17d37d83d1f060" target="_blank">Abrir Painel Igarashi HF — Comando →</a>
+    </div>
+    <p class="note">Esse HUB é um resumo rápido. O Painel no Notion tem tudo isso + rotina diária, top 3 da semana e o índice completo linkado.</p>
+  </div>
+
+  <footer>HUB v1 · 11/07/2026 · Igarashi HF Recife</footer>
+
+</div>
+</body>
+</html>
