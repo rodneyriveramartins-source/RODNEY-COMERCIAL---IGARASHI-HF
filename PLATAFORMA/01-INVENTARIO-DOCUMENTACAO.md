@@ -31,8 +31,8 @@
 | Chave | Estado | Faltando | Próxima ação (dono) |
 |---|---|---|---|
 | PERGUNTAS-1-13 | aberto | respostas | Rodney responde (áudio/texto) |
-| **TESTE-XML-ID-COMPOSTO (RB-001)** | 🔥 quente — Rodney identificou no Hortigestão campo ao lado do produto que ninguém preenche **e que sai no XML** | o XML de teste como evidência (Lei 4) | Rodney fatura 1 nota com o ID COMPOSTO nesse campo e manda o XML |
-| AUDIO-14/07-PARTE-2 | cortado no meio ("Ele marca lá e…") | o resto da explicação | Rodney reenvia/continua |
+| **TESTE-XML-ID-COMPOSTO (RB-001)** | ✅ **PROMOVIDA 14/07** — campo Nº O.C. ao lado do produto sai no XML como `xPed`; teste real do Rodney deu certo | arquivar 1 XML de evidência; validar limite de 15 chars do xPed; congelar tabela de códigos de classe | Rodney anexa o XML da nota de teste (evidência permanente) |
+| AUDITORIA-CONTROLE | rodada 1 feita (aba CARGAS) — ver `02-AUDITORIA-CONTROLE.md`: 2 achados graves (custo Lavoura × R-011; desconto e seguro na mesma coluna) | as outras 9 abas | Rodney baixa o CONTROLE como .xlsx e anexa no chat → rodada 2 completa |
 | HUB-OFICIAL | aberto | qual design vale (pills × launcher) | Rodney decide |
 | MODELO-PAINEL-EXECUTIVO | 2 modelos concorrendo, mexidos hoje | critério + decisão (Lei 2) | Rodney escolhe na 1ª execução do menu 3/4 |
 | LOGO-ARQUIVO | pendente | logo como arquivo no repo | extrair do Drive na construção ou Rodney envia |
