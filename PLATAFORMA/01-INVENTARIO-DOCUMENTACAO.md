@@ -37,3 +37,4 @@
 | MODELO-PAINEL-EXECUTIVO | 2 modelos concorrendo, mexidos hoje | critério + decisão (Lei 2) | Rodney escolhe na 1ª execução do menu 3/4 |
 | LOGO-ARQUIVO | pendente | logo como arquivo no repo | extrair do Drive na construção ou Rodney envia |
 | CARTAS-ESPECIALISTAS | PENDENTE aprovação | assinatura do Rodney (pergunta 13) | Rodney |
+| PASTA-NOTAS-VAZIA | divergência: a pasta oficial NOTAS (01_OPERACIONAL) está vazia — nenhum XML mora na casa das notas | os XMLs (chegam por e-mail hoje) | Rodney decide se NOTAS vira o depósito padrão dos XMLs — resolveria o teste RB-001 e alimentaria a Plataforma |
