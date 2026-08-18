@@ -1,0 +1,812 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel de Vendas Igarashi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Lora:ital,wght@1,400;1,500;1,600&display=swap">
+<style>
+/* ============ TOKENS — paleta 47.50 + modelo 46.45 ============ */
+:root{
+  --forest:#1F3D2E;      /* Forest shade */
+  --forest-deep:#152A1F;
+  --moss:#6B7F4E;        /* Moss green */
+  --sage:#A2B5A0;        /* Sage mist */
+  --sand:#DCC8A3;        /* Sand beige */
+  --river:#4C6A73;       /* River blue */
+  --earth:#5A4A3A;       /* Earth brown */
+  --earth-deep:#3E3227;
+  --gold:#C9962E;        /* destaque leitura executiva / dia parcial */
+  --logo:#1F6B52;        /* verde da logo Igarashi */
+  --cream:#E8E1CD;       /* fundo da página */
+  --card:#F2EDDF;        /* cartões */
+  --card-inset:#E7E0CC;  /* mini-cartões de KPI */
+  --track:#DCD5BE;       /* trilho das barras de mix */
+  --ink:#26221A;
+  --ink-soft:#4A443A;
+  --muted:#847B67;
+  --line:#D3CBB2;
+  --font-display:'Oswald','Arial Narrow',Arial,sans-serif;
+  --font-serif:'Lora',Georgia,'Times New Roman',serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--cream);
+  color:var(--ink);
+  font-family:var(--font-display);
+  font-variant-numeric:tabular-nums;
+  line-height:1.35;
+  min-height:100vh;
+}
+.wrap{max-width:1240px;margin:0 auto;padding:26px 22px 40px}
+
+/* ============ HEADER ============ */
+header.top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding-bottom:18px;border-bottom:2px solid var(--forest);margin-bottom:20px}
+.logo{color:var(--logo);flex:0 0 auto;display:flex;align-items:center}
+.logo svg{display:block}
+.brand h1{font-size:26px;font-weight:700;letter-spacing:.06em;color:var(--forest);line-height:1.05}
+.brand .sub{font-size:11px;font-weight:500;letter-spacing:.28em;color:var(--muted);text-transform:uppercase;margin-top:3px}
+.top-meta{margin-left:auto;text-align:right;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.top-meta strong{color:var(--forest);font-weight:600}
+
+/* ============ DROPZONE (estado vazio) ============ */
+.dropzone{
+  border:2.5px dashed var(--sage);
+  background:var(--card);
+  border-radius:16px;
+  padding:64px 30px;
+  text-align:center;
+  cursor:pointer;
+  transition:border-color .15s, background .15s, transform .1s;
+}
+.dropzone:hover,.dropzone.hot{border-color:var(--moss);background:#F6F1E4}
+.dropzone .dz-icon{color:var(--moss);margin-bottom:14px}
+.dropzone h2{font-size:24px;font-weight:600;letter-spacing:.04em;color:var(--forest);text-transform:uppercase}
+.dropzone .dz-sub{font-family:var(--font-serif);font-style:italic;font-size:16px;color:var(--ink-soft);margin-top:8px}
+.dropzone .dz-hint{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:22px}
+.dropzone .dz-priv{display:inline-flex;align-items:center;gap:7px;margin-top:26px;font-size:11px;letter-spacing:.08em;color:var(--moss);border:1px solid var(--sage);border-radius:999px;padding:7px 14px;text-transform:uppercase}
+
+/* barra fina de troca (estado carregado) */
+.reload-bar{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  background:var(--card);border:1.5px dashed var(--sage);border-radius:12px;
+  padding:10px 16px;margin-bottom:18px;cursor:pointer;
+  transition:border-color .15s, background .15s;
+}
+.reload-bar:hover{border-color:var(--moss);background:#F6F1E4}
+.reload-bar .rb-ico{color:var(--moss);flex:0 0 auto}
+.reload-bar .rb-txt{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.reload-bar .rb-txt strong{color:var(--forest)}
+.reload-bar .rb-file{margin-left:auto;font-size:11px;color:var(--muted);letter-spacing:.05em}
+
+/* ============ PAINÉIS (modelo 46.45) ============ */
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:960px){.panels{grid-template-columns:1fr}}
+.panel{background:var(--card);border-radius:16px;padding:22px 22px 26px;box-shadow:0 1px 0 rgba(38,34,26,.06)}
+.panel-title{display:flex;align-items:baseline;gap:10px;margin-bottom:16px}
+.panel-title .sq{width:10px;height:10px;flex:0 0 auto;align-self:center}
+.panel-title h2{font-size:19px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
+.panel-title .when{font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--ink-soft)}
+.hero-band{border-radius:12px;padding:16px 20px 18px;color:#F5F1E4;margin-bottom:14px}
+.hero-band .hb-label{font-size:11px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;opacity:.75}
+.hero-band .hb-value{font-size:46px;font-weight:700;letter-spacing:.02em;line-height:1.08;margin-top:2px;text-shadow:0 0 18px rgba(255,255,255,.25)}
+.band-green{background:linear-gradient(135deg,#2A5240 0%,var(--forest) 55%,var(--forest-deep) 100%)}
+.band-brown{background:linear-gradient(135deg,#6E5A46 0%,var(--earth) 55%,var(--earth-deep) 100%)}
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
+.kpi{background:var(--card-inset);border-radius:10px;padding:11px 14px 12px}
+.kpi .k-label{font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.kpi .k-value{font-size:25px;font-weight:600;color:var(--ink);margin-top:2px;line-height:1.1}
+.kpi .k-value .dim{color:var(--muted);font-weight:500}
+.k-down{color:#8A4B2F}
+.k-up{color:#3F6B3A}
+
+.section-h{display:flex;align-items:baseline;gap:9px;margin:20px 0 10px}
+.section-h .dot{width:8px;height:8px;border-radius:2px;align-self:center;flex:0 0 auto}
+.section-h h3{font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink)}
+.section-h .note{font-family:var(--font-serif);font-style:italic;font-size:13.5px;color:var(--muted)}
+
+.rank-list{display:flex;flex-direction:column;gap:9px}
+.rank-row{display:grid;grid-template-columns:18px 1fr auto auto;gap:10px;align-items:center}
+.rank-row .r-n{font-size:12px;font-weight:600;color:var(--muted)}
+.rank-row .r-name{min-width:0}
+.rank-row .r-name .nm{font-size:13.5px;font-weight:600;letter-spacing:.03em;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rank-row .r-name .bar{height:5px;border-radius:3px;background:var(--track);margin-top:4px;overflow:hidden}
+.rank-row .r-name .bar i{display:block;height:100%;border-radius:3px}
+.rank-row .r-val{font-size:14px;font-weight:700;color:var(--ink)}
+.rank-row .r-pct{font-size:11.5px;font-weight:500;color:var(--muted);width:42px;text-align:right}
+
+.mix-list{display:flex;flex-direction:column;gap:8px}
+.mix-row{display:grid;grid-template-columns:86px 1fr 52px;gap:12px;align-items:center}
+.mix-row .m-name{font-size:12.5px;font-weight:600;letter-spacing:.03em;color:var(--ink-soft)}
+.mix-row .m-bar{height:7px;border-radius:4px;background:var(--track);overflow:hidden}
+.mix-row .m-bar i{display:block;height:100%;border-radius:4px;min-width:2px}
+.mix-row .m-pct{font-size:12.5px;font-weight:700;color:var(--ink);text-align:right}
+
+/* ============ GRÁFICO DIÁRIO ============ */
+.card{background:var(--card);border-radius:16px;padding:22px;margin-top:20px;box-shadow:0 1px 0 rgba(38,34,26,.06)}
+.card > .section-h{margin-top:0}
+.chart-scroll{overflow-x:auto}
+.chart-scroll svg{display:block;min-width:760px;width:100%;height:auto}
+.tip{
+  position:fixed;z-index:50;pointer-events:none;display:none;
+  background:var(--forest-deep);color:#F0EBDA;border-radius:8px;
+  padding:8px 12px;font-size:12px;letter-spacing:.04em;line-height:1.5;
+  box-shadow:0 6px 18px rgba(21,42,31,.35);
+}
+.tip b{color:#fff;font-weight:600}
+.tip .t-sub{color:var(--sage)}
+
+/* ============ TABELA LÍDERES ============ */
+table.leaders{width:100%;border-collapse:collapse}
+table.leaders th{
+  font-size:10.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--muted);text-align:right;padding:8px 10px;border-bottom:1.5px solid var(--forest);
+}
+table.leaders th:first-child{text-align:left}
+table.leaders td{padding:10px;border-bottom:1px solid var(--line);text-align:right;font-size:14px}
+table.leaders td:first-child{text-align:left}
+table.leaders tr:last-child td{border-bottom:none}
+.p-rank{display:inline-flex;width:20px;height:20px;border-radius:5px;background:var(--card-inset);color:var(--ink-soft);font-size:11px;font-weight:600;align-items:center;justify-content:center;margin-right:10px;vertical-align:middle}
+.p-name{font-weight:600;letter-spacing:.04em}
+.p-unit{color:var(--muted);font-size:12px}
+.p-fat{font-weight:700}
+.p-part{color:var(--muted);font-size:12.5px}
+.leaders-more{font-size:12px;color:var(--muted);letter-spacing:.05em;padding-top:12px}
+.table-scroll{overflow-x:auto}
+.table-scroll table{min-width:640px}
+
+/* ============ LEITURA EXECUTIVA ============ */
+.exec{background:linear-gradient(160deg,#244635 0%,var(--forest-deep) 70%);color:#EDE7D4;border-radius:16px;padding:24px 26px;margin-top:20px}
+.exec h2{font-size:15px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.exec ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.exec li{display:flex;gap:11px;font-size:14.5px;line-height:1.5;letter-spacing:.02em}
+.exec li::before{content:"▸";color:var(--sand);font-size:13px;line-height:1.7}
+.exec b{color:#fff;font-weight:600}
+.exec .warn{color:#E8B96A}
+
+/* ============ FOOTER ============ */
+footer{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:26px;padding-top:14px;border-top:1px solid var(--line);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+footer .f-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+footer .dots{display:flex;gap:5px}
+footer .dots i{width:11px;height:11px;border-radius:3px;display:block}
+footer a{color:var(--muted)}
+footer a:hover{color:var(--forest)}
+
+/* ============ OVERLAY DE ARRASTE / ERRO ============ */
+.drag-overlay{
+  position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;
+  background:rgba(31,61,46,.88);color:#F0EBDA;text-align:center;
+}
+.drag-overlay.on{display:flex}
+.drag-overlay .do-in{border:3px dashed var(--sand);border-radius:20px;padding:60px 80px}
+.drag-overlay h2{font-size:30px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.drag-overlay p{font-family:var(--font-serif);font-style:italic;font-size:16px;margin-top:8px;color:var(--sand)}
+.toast{
+  position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:120;display:none;
+  background:#7A2E1E;color:#FBEFE6;border-radius:10px;padding:13px 20px;
+  font-size:13.5px;letter-spacing:.04em;max-width:min(620px,90vw);
+  box-shadow:0 8px 24px rgba(0,0,0,.28);
+}
+.toast.on{display:block}
+.hidden{display:none !important}
+input[type=file]{display:none}
+:focus-visible{outline:3px solid var(--river);outline-offset:2px}
+
+@media(max-width:700px){
+  .hero-band .hb-value{font-size:36px}
+  .kpi .k-value{font-size:21px}
+  .wrap{padding:18px 14px 32px}
+  .mix-row{grid-template-columns:72px 1fr 46px}
+}
+@media print{
+  body{background:#fff}
+  .reload-bar,.dropzone,.drag-overlay,.toast{display:none !important}
+  .wrap{max-width:none;padding:0}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Kamon Igarashi (mokkō) — recriação vetorial, sem fundo -->
+    <g id="kamon-art">
+      <circle r="116" fill="none" stroke="currentColor" stroke-width="15"/>
+      <rect x="-130" y="-130" width="260" height="260" fill="currentColor" mask="url(#kamon-mask)"/>
+      <g fill="currentColor">
+        <g mask="url(#petal-mask)">
+          <circle cx="0" cy="-38" r="18.5"/>
+          <circle cx="0" cy="38" r="18.5"/>
+          <circle cx="-38" cy="0" r="18.5"/>
+          <circle cx="38" cy="0" r="18.5"/>
+        </g>
+        <circle r="11" fill="none" stroke="currentColor" stroke-width="7"/>
+        <g>
+          <rect x="-6" y="-6" width="12" height="12" transform="translate(22,-22) rotate(45)"/>
+          <rect x="-6" y="-6" width="12" height="12" transform="translate(22,22) rotate(45)"/>
+          <rect x="-6" y="-6" width="12" height="12" transform="translate(-22,22) rotate(45)"/>
+          <rect x="-6" y="-6" width="12" height="12" transform="translate(-22,-22) rotate(45)"/>
+        </g>
+      </g>
+    </g>
+    <mask id="kamon-mask" maskUnits="userSpaceOnUse" x="-130" y="-130" width="260" height="260">
+      <g fill="#fff">
+        <ellipse cx="0" cy="-55" rx="43" ry="49"/>
+        <ellipse cx="0" cy="55" rx="43" ry="49"/>
+        <ellipse cx="-55" cy="0" rx="49" ry="43"/>
+        <ellipse cx="55" cy="0" rx="49" ry="43"/>
+      </g>
+      <g fill="#000" transform="scale(0.74)">
+        <ellipse cx="0" cy="-55" rx="43" ry="49"/>
+        <ellipse cx="0" cy="55" rx="43" ry="49"/>
+        <ellipse cx="-55" cy="0" rx="49" ry="43"/>
+        <ellipse cx="55" cy="0" rx="49" ry="43"/>
+      </g>
+    </mask>
+    <mask id="petal-mask" maskUnits="userSpaceOnUse" x="-130" y="-130" width="260" height="260">
+      <rect x="-130" y="-130" width="260" height="260" fill="#fff"/>
+      <circle cx="0" cy="-38" r="6.5" fill="#000"/>
+      <circle cx="0" cy="38" r="6.5" fill="#000"/>
+      <circle cx="-38" cy="0" r="6.5" fill="#000"/>
+      <circle cx="38" cy="0" r="6.5" fill="#000"/>
+    </mask>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <header class="top">
+    <span class="logo" aria-hidden="true">
+      <svg width="58" height="58" viewBox="-130 -130 260 260"><use href="#kamon-art"/></svg>
+    </span>
+    <div class="brand">
+      <h1>IGARASHI HF</h1>
+      <div class="sub">Painel de Vendas &middot; CEASA Recife</div>
+    </div>
+    <div class="top-meta" id="topMeta"></div>
+  </header>
+
+  <!-- ESTADO VAZIO -->
+  <section class="dropzone" id="dropzone" role="button" tabindex="0"
+           aria-label="Arraste o relatório de vendas aqui ou clique para escolher o arquivo">
+    <div class="dz-icon">
+      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>
+      </svg>
+    </div>
+    <h2>Arraste aqui o relat&oacute;rio de vendas</h2>
+    <div class="dz-sub">Relat&oacute;rio de Vendas por Produto do Hortigest&atilde;o (.xls) &mdash; solte o arquivo e o painel monta sozinho.</div>
+    <div class="dz-hint">ou clique para escolher o arquivo</div>
+    <br>
+    <span class="dz-priv">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      lido 100% no seu computador &mdash; nada &eacute; enviado para a internet
+    </span>
+  </section>
+
+  <!-- DASHBOARD -->
+  <main id="dashboard" class="hidden">
+
+    <div class="reload-bar" id="reloadBar" role="button" tabindex="0"
+         aria-label="Trocar o relatório: arraste um novo arquivo ou clique para escolher">
+      <span class="rb-ico">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+      </span>
+      <span class="rb-txt"><strong>Trocar relat&oacute;rio:</strong> arraste o novo arquivo em qualquer lugar da tela, ou clique aqui</span>
+      <span class="rb-file" id="fileMeta"></span>
+    </div>
+
+    <div class="panels">
+      <!-- ACUMULADO DO MÊS -->
+      <section class="panel">
+        <div class="panel-title">
+          <span class="sq" style="background:var(--forest)"></span>
+          <h2>Acumulado do M&ecirc;s</h2>
+          <span class="when" id="monthName"></span>
+        </div>
+        <div class="hero-band band-green">
+          <div class="hb-label">Faturamento Acumulado</div>
+          <div class="hb-value" id="kpiTotal"></div>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi"><div class="k-label" id="kpiAvgLabel">M&eacute;dia Di&aacute;ria</div><div class="k-value" id="kpiAvg"></div></div>
+          <div class="kpi"><div class="k-label">Pedidos &middot; Clientes</div><div class="k-value" id="kpiOrders"></div></div>
+          <div class="kpi"><div class="k-label">Ticket M&eacute;dio / Pedido</div><div class="k-value" id="kpiTicket"></div></div>
+          <div class="kpi"><div class="k-label">Proje&ccedil;&atilde;o M&ecirc;s Fechado</div><div class="k-value" id="kpiProj"></div></div>
+        </div>
+        <div class="section-h">
+          <span class="dot" style="background:var(--forest)"></span>
+          <h3>Top 5 Clientes</h3>
+          <span class="note" id="topShareMonth"></span>
+        </div>
+        <div class="rank-list" id="topClientsMonth"></div>
+        <div class="section-h">
+          <span class="dot" style="background:var(--forest)"></span>
+          <h3>Mix por Fam&iacute;lia</h3>
+        </div>
+        <div class="mix-list" id="mixMonth"></div>
+      </section>
+
+      <!-- VENDA DO DIA -->
+      <section class="panel">
+        <div class="panel-title">
+          <span class="sq" style="background:var(--earth)"></span>
+          <h2>Venda do Dia</h2>
+          <span class="when" id="dayDate"></span>
+        </div>
+        <div class="hero-band band-brown">
+          <div class="hb-label">Venda do Dia</div>
+          <div class="hb-value" id="kpiDayTotal"></div>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi"><div class="k-label">vs M&eacute;dia do M&ecirc;s</div><div class="k-value" id="kpiDayVs"></div></div>
+          <div class="kpi"><div class="k-label">Pedidos &middot; Clientes</div><div class="k-value" id="kpiDayOrders"></div></div>
+          <div class="kpi"><div class="k-label">Ticket M&eacute;dio / Pedido</div><div class="k-value" id="kpiDayTicket"></div></div>
+          <div class="kpi"><div class="k-label">Participa&ccedil;&atilde;o no M&ecirc;s</div><div class="k-value" id="kpiDayShare"></div></div>
+        </div>
+        <div class="section-h">
+          <span class="dot" style="background:var(--earth)"></span>
+          <h3>Clientes do Dia</h3>
+          <span class="note" id="topShareDay"></span>
+        </div>
+        <div class="rank-list" id="topClientsDay"></div>
+        <div class="section-h">
+          <span class="dot" style="background:var(--earth)"></span>
+          <h3>Mix por Fam&iacute;lia</h3>
+        </div>
+        <div class="mix-list" id="mixDay"></div>
+      </section>
+    </div>
+
+    <!-- FATURAMENTO POR DIA -->
+    <section class="card">
+      <div class="section-h">
+        <span class="dot" style="background:var(--forest)"></span>
+        <h3>Faturamento por Dia</h3>
+        <span class="note" id="chartRange"></span>
+      </div>
+      <div class="chart-scroll" id="chartBox"></div>
+    </section>
+
+    <!-- PRODUTOS LÍDERES -->
+    <section class="card">
+      <div class="section-h">
+        <span class="dot" style="background:var(--forest)"></span>
+        <h3>Produtos L&iacute;deres no M&ecirc;s</h3>
+        <span class="note" id="skuCount"></span>
+      </div>
+      <div class="table-scroll">
+        <table class="leaders">
+          <thead>
+            <tr><th>Produto</th><th>Volume</th><th>Pre&ccedil;o M&eacute;dio</th><th>Faturamento</th><th>Part.</th></tr>
+          </thead>
+          <tbody id="leadersBody"></tbody>
+        </table>
+      </div>
+      <div class="leaders-more" id="leadersMore"></div>
+    </section>
+
+    <!-- LEITURA EXECUTIVA -->
+    <section class="exec">
+      <h2>Leitura Executiva</h2>
+      <ul id="execList"></ul>
+    </section>
+
+    <footer>
+      <span id="footSrc">Fonte: Hortigest&atilde;o &middot; Relat&oacute;rio de Vendas por Produto &middot; lido no seu computador</span>
+      <span class="f-right">
+        <span>Igarashi HF &middot; CEASA Recife</span>
+        <span class="dots" aria-hidden="true">
+          <i style="background:var(--forest)"></i><i style="background:var(--moss)"></i><i style="background:var(--sage)"></i><i style="background:var(--sand)"></i><i style="background:var(--river)"></i><i style="background:var(--earth)"></i>
+        </span>
+        <a href="#" id="clearData" title="Apaga os dados salvos neste navegador">limpar dados salvos</a>
+      </span>
+    </footer>
+  </main>
+</div>
+
+<div class="drag-overlay" id="dragOverlay" aria-hidden="true">
+  <div class="do-in">
+    <h2>Solte o arquivo</h2>
+    <p>o painel atualiza na hora</p>
+  </div>
+</div>
+<div class="toast" id="toast" role="alert"></div>
+<div class="tip" id="tip"></div>
+<input type="file" id="fileInput" accept=".xls,.html,.htm,.xlsx">
+
+<script>
+'use strict';
+/* =====================================================================
+   PAINEL DE VENDAS IGARASHI — arquivo único, sem dependências externas.
+   O .xls do Hortigestão é HTML por dentro: lemos com DOMParser nativo.
+   Nenhum dado sai do computador. Último arquivo fica salvo no navegador.
+   ===================================================================== */
+
+var STORE_KEY = 'igarashi-painel-vendas-v1';
+var MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+/* ---------- helpers ---------- */
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function numBR(s){
+  s = String(s||'').trim().replace(/\./g,'').replace(',','.');
+  var v = parseFloat(s);
+  return isNaN(v) ? 0 : v;
+}
+function brl0(v){ return 'R$ ' + Math.round(v).toLocaleString('pt-BR'); }
+function brl2(v){ return 'R$ ' + v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function int0(v){ return Math.round(v).toLocaleString('pt-BR'); }
+function pct1(v){ return (v*100).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}) + '%'; }
+function kFmt(v){ return v >= 999500 ? (v/1000000).toLocaleString('pt-BR',{maximumFractionDigits:1})+'M' : Math.round(v/1000)+'k'; }
+function dKey(d){ return d.y*10000 + d.m*100 + d.d; }
+function parseDate(s){
+  var m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(s);
+  return m ? { d:+m[1], m:+m[2], y:+m[3] } : null;
+}
+function famName(prod){
+  var w = String(prod||'').trim().split(/\s+/)[0] || '?';
+  w = w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+  if (w === 'Maça' || w === 'Maca') w = 'Maçã';
+  return w;
+}
+function toast(msg){
+  var t = $('toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(function(){ t.classList.remove('on'); }, 7000);
+}
+
+/* ---------- leitura do arquivo ---------- */
+function handleFile(file){
+  if (!file) return;
+  var rd = new FileReader();
+  rd.onload = function(){
+    var buf = new Uint8Array(rd.result);
+    if (buf.length > 3 && buf[0] === 0xD0 && buf[1] === 0xCF) {
+      toast('Este arquivo está em Excel binário (salvo pelo Excel). Use o .xls original exportado pelo Hortigestão, sem abrir e salvar por cima.');
+      return;
+    }
+    if (buf.length > 3 && buf[0] === 0x50 && buf[1] === 0x4B) {
+      toast('Este é um .xlsx do Excel. Use o .xls original exportado pelo Hortigestão (Relatório de Vendas por Produto).');
+      return;
+    }
+    var txt = new TextDecoder('utf-8').decode(rd.result);
+    var bad = (txt.match(/�/g) || []).length;
+    if (bad > 5) txt = new TextDecoder('windows-1252').decode(rd.result);
+    var parsed = parseReport(txt);
+    if (!parsed || parsed.sales.length === 0) {
+      toast('Não reconheci este arquivo como o Relatório de Vendas por Produto do Hortigestão. Confira se é o .xls exportado direto do sistema.');
+      return;
+    }
+    var payload = { fileName:file.name, loadedAt:new Date().toISOString(), sales:parsed.sales, unid:parsed.unid };
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(payload)); } catch(e){}
+    render(payload);
+  };
+  rd.readAsArrayBuffer(file);
+}
+
+/* Estrutura do relatório:
+   - linha-resumo do produto: 12 células, 1ª = código numérico (traz a unidade SC/CX)
+   - "Mining - PRODUTO": abre a seção de pedidos daquele produto
+   - linha de pedido: 14 células → ['', nº pedido, dd/mm/aaaa, cliente, qtde, preço, desc, total, ...] */
+function parseReport(txt){
+  var doc;
+  try { doc = new DOMParser().parseFromString(txt, 'text/html'); } catch(e){ return null; }
+  var rows = doc.querySelectorAll('tr');
+  var product = null, sales = [], unid = {};
+  for (var i = 0; i < rows.length; i++){
+    var tds = rows[i].children, cells = [];
+    for (var j = 0; j < tds.length; j++) cells.push(tds[j].textContent.trim());
+    if (cells.length >= 2 && cells[1].indexOf('Mining - ') === 0){
+      product = cells[1].slice(9).trim();
+      continue;
+    }
+    if (cells.length === 12 && /^\d+$/.test(cells[0])){
+      unid[cells[1].trim()] = cells[2].trim();
+      continue;
+    }
+    if (cells.length === 14 && cells[0] === '' && /^\d+$/.test(cells[1]) && /^\d{2}\/\d{2}\/\d{4}$/.test(cells[2])){
+      sales.push({
+        produto: product || '?', pedido: cells[1], data: cells[2], cliente: cells[3],
+        qtde: numBR(cells[4]), preco: numBR(cells[5]), total: numBR(cells[7])
+      });
+    }
+  }
+  return { sales: sales, unid: unid };
+}
+
+/* ---------- agregação ---------- */
+function aggregate(payload){
+  var all = payload.sales.map(function(s){
+    var dt = parseDate(s.data);
+    return { p:s.produto, o:s.pedido, dt:dt, c:s.cliente, q:s.qtde, v:s.total };
+  }).filter(function(s){ return s.dt; });
+
+  var last = all.reduce(function(a,s){ return dKey(s.dt) > dKey(a) ? s.dt : a; }, all[0].dt);
+  var inMonth = all.filter(function(s){ return s.dt.m === last.m && s.dt.y === last.y; });
+  var outCount = all.length - inMonth.length;
+
+  var total = 0, byDay = {}, byClient = {}, byFam = {}, byProd = {}, orders = {}, clients = {};
+  var first = inMonth[0].dt;
+  inMonth.forEach(function(s){
+    if (dKey(s.dt) < dKey(first)) first = s.dt;
+    total += s.v;
+    byDay[s.dt.d] = (byDay[s.dt.d]||0) + s.v;
+    byClient[s.c] = (byClient[s.c]||0) + s.v;
+    var f = famName(s.p);
+    byFam[f] = (byFam[f]||0) + s.v;
+    if (!byProd[s.p]) byProd[s.p] = { q:0, v:0 };
+    byProd[s.p].q += s.q; byProd[s.p].v += s.v;
+    orders[s.o] = 1; clients[s.c] = 1;
+  });
+
+  var day = inMonth.filter(function(s){ return s.dt.d === last.d; });
+  var dayTotal = 0, dayByClient = {}, dayByFam = {}, dayOrders = {}, dayClients = {};
+  day.forEach(function(s){
+    dayTotal += s.v;
+    dayByClient[s.c] = (dayByClient[s.c]||0) + s.v;
+    var f = famName(s.p);
+    dayByFam[f] = (dayByFam[f]||0) + s.v;
+    dayOrders[s.o] = 1; dayClients[s.c] = 1;
+  });
+
+  var elapsed = last.d - first.d + 1;
+  var daysInMonth = new Date(last.y, last.m, 0).getDate();
+  var nOrders = Object.keys(orders).length;
+
+  function sortDesc(obj){
+    return Object.keys(obj).map(function(k){ return [k, obj[k]]; }).sort(function(a,b){ return b[1]-a[1]; });
+  }
+  var dayOrdersByDay = {};
+  inMonth.forEach(function(s){
+    if (!dayOrdersByDay[s.dt.d]) dayOrdersByDay[s.dt.d] = {};
+    dayOrdersByDay[s.dt.d][s.o] = 1;
+  });
+
+  return {
+    fileName: payload.fileName, loadedAt: payload.loadedAt, unid: payload.unid || {},
+    last:last, first:first, elapsed:elapsed, daysInMonth:daysInMonth, outCount:outCount,
+    total:total, avg: total/elapsed, proj: total/elapsed*daysInMonth,
+    nOrders:nOrders, nClients:Object.keys(clients).length, ticket: nOrders ? total/nOrders : 0,
+    byDay:byDay, dayOrdersByDay:dayOrdersByDay,
+    clientsRank: sortDesc(byClient), famRank: sortDesc(byFam), prodRank: sortDesc(byProd).map(function(e){ return [e[0], byProd[e[0]]]; }),
+    dayTotal:dayTotal, dayOrdersN:Object.keys(dayOrders).length, dayClientsN:Object.keys(dayClients).length,
+    dayTicket: Object.keys(dayOrders).length ? dayTotal/Object.keys(dayOrders).length : 0,
+    dayClientsRank: sortDesc(dayByClient), dayFamRank: sortDesc(dayByFam)
+  };
+}
+/* prodRank precisa ordenar por faturamento, não por objeto */
+function prodRankSorted(byProdEntries){
+  return byProdEntries.sort(function(a,b){ return b[1].v - a[1].v; });
+}
+
+/* ---------- render ---------- */
+function render(payload){
+  var M = aggregate(payload);
+  if (!M.total){ toast('O arquivo foi lido, mas não encontrei nenhuma venda dentro dele.'); return; }
+
+  $('dropzone').classList.add('hidden');
+  $('dashboard').classList.remove('hidden');
+
+  var dd = String(M.last.d).padStart(2,'0') + '/' + String(M.last.m).padStart(2,'0') + '/' + M.last.y;
+  var loadedAt = new Date(M.loadedAt);
+  $('topMeta').innerHTML = 'Período <strong>' + String(M.first.d).padStart(2,'0') + '–' + dd + '</strong>';
+  $('fileMeta').textContent = M.fileName + ' · lido em ' + loadedAt.toLocaleDateString('pt-BR') + ' às ' + loadedAt.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+
+  /* --- painel mês --- */
+  $('monthName').textContent = '— ' + MESES[M.last.m-1];
+  $('kpiTotal').textContent = brl0(M.total);
+  $('kpiAvgLabel').innerHTML = 'Média Diária · ' + M.elapsed + ' dias';
+  $('kpiAvg').textContent = brl0(M.avg);
+  $('kpiOrders').innerHTML = int0(M.nOrders) + ' <span class="dim">·</span> ' + int0(M.nClients);
+  $('kpiTicket').textContent = brl0(M.ticket);
+  $('kpiProj').textContent = brl0(M.proj);
+
+  var top5 = M.clientsRank.slice(0,5);
+  var top5Sum = top5.reduce(function(a,e){ return a+e[1]; },0);
+  $('topShareMonth').textContent = '· ' + pct1(top5Sum/M.total) + ' do faturamento';
+  $('topClientsMonth').innerHTML = rankRows(top5, M.total, 'var(--forest)');
+
+  $('mixMonth').innerHTML = mixRows(M.famRank, M.total, 'var(--forest)');
+
+  /* --- painel dia --- */
+  $('dayDate').textContent = '— ' + dd;
+  $('kpiDayTotal').textContent = brl0(M.dayTotal);
+  var vs = M.avg ? (M.dayTotal/M.avg - 1) : 0;
+  $('kpiDayVs').innerHTML = vs < 0
+    ? '<span class="k-down">▼ ' + pct1(-vs) + '</span>'
+    : '<span class="k-up">▲ ' + pct1(vs) + '</span>';
+  $('kpiDayOrders').innerHTML = int0(M.dayOrdersN) + ' <span class="dim">·</span> ' + int0(M.dayClientsN);
+  $('kpiDayTicket').textContent = brl0(M.dayTicket);
+  $('kpiDayShare').textContent = pct1(M.dayTotal/M.total);
+
+  var top5d = M.dayClientsRank.slice(0,5);
+  var top5dSum = top5d.reduce(function(a,e){ return a+e[1]; },0);
+  $('topShareDay').textContent = M.dayTotal ? '· ' + pct1(top5dSum/M.dayTotal) + ' da venda' : '';
+  $('topClientsDay').innerHTML = rankRows(top5d, M.dayTotal, 'var(--earth)');
+  $('mixDay').innerHTML = mixRows(M.dayFamRank, M.dayTotal, 'var(--earth)');
+
+  /* --- gráfico --- */
+  $('chartRange').textContent = '· 01/' + String(M.last.m).padStart(2,'0') + ' a ' + dd;
+  drawChart(M);
+
+  /* --- líderes --- */
+  var prods = prodRankSorted(M.prodRank);
+  var withSale = prods.filter(function(e){ return e[1].v > 0; });
+  $('skuCount').textContent = '· ' + withSale.length + ' SKUs com venda';
+  var top10 = withSale.slice(0,10);
+  $('leadersBody').innerHTML = top10.map(function(e,i){
+    var unit = M.unid[e[0]] || '';
+    var pm = e[1].q ? e[1].v/e[1].q : 0;
+    return '<tr><td><span class="p-rank">'+(i+1)+'</span><span class="p-name">'+esc(e[0])+'</span></td>'
+      + '<td>'+int0(e[1].q)+' <span class="p-unit">'+esc(unit)+'</span></td>'
+      + '<td>'+brl2(pm)+'</td>'
+      + '<td class="p-fat">'+brl0(e[1].v)+'</td>'
+      + '<td class="p-part">'+pct1(e[1].v/M.total)+'</td></tr>';
+  }).join('');
+  var rest = withSale.slice(10);
+  if (rest.length){
+    var restSum = rest.reduce(function(a,e){ return a+e[1].v; },0);
+    $('leadersMore').textContent = '+ ' + rest.length + ' outros SKUs somam ' + brl0(restSum) + ' (' + pct1(restSum/M.total) + ')';
+  } else {
+    $('leadersMore').textContent = '';
+  }
+
+  /* --- leitura executiva --- */
+  var best = null, worst = null;
+  Object.keys(M.byDay).forEach(function(d){
+    var v = M.byDay[d];
+    if (!best || v > best.v) best = {d:+d, v:v};
+    if (v > 0 && (!worst || v < worst.v)) worst = {d:+d, v:v};
+  });
+  function dLabel(d){ return String(d).padStart(2,'0') + '/' + String(M.last.m).padStart(2,'0'); }
+  var topC = M.clientsRank[0];
+  var topF = M.famRank[0];
+  var items = [];
+  items.push('Ritmo atual projeta <b>' + brl0(M.proj) + '</b> no mês fechado (média × ' + M.daysInMonth + ' dias). <b>Isto é faturamento, não resultado.</b>');
+  items.push('Dia ' + dLabel(M.last.d) + ' fez <b>' + brl0(M.dayTotal) + '</b>, ' + (vs<0 ? '<span class="warn">' + pct1(-vs) + ' abaixo</span>' : pct1(vs) + ' acima') + ' da média diária.');
+  if (topC) items.push('<b>' + esc(topC[0]) + '</b> sozinho é ' + pct1(topC[1]/M.total) + ' do faturamento — os 5 maiores somam ' + pct1(top5Sum/M.total) + '.');
+  if (topF) items.push('<b>' + esc(topF[0]) + '</b> puxa ' + pct1(topF[1]/M.total) + ' da receita.');
+  if (best && worst) items.push('Melhor dia do período: <b>' + dLabel(best.d) + '</b> com ' + brl0(best.v) + '. Pior: ' + dLabel(worst.d) + ' com ' + brl0(worst.v) + '.');
+  items.push(int0(M.nOrders) + ' pedidos de ' + int0(M.nClients) + ' clientes · ticket médio <b>' + brl0(M.ticket) + '</b> por pedido.');
+  if (M.outCount) items.push('<span class="warn">' + M.outCount + ' pedidos fora de ' + MESES[M.last.m-1] + ' foram ignorados no painel.</span>');
+  $('execList').innerHTML = items.map(function(t){ return '<li><span>' + t + '</span></li>'; }).join('');
+
+  $('footSrc').textContent = 'Fonte: Hortigestão · Relatório de Vendas por Produto · gerado em ' + loadedAt.toLocaleDateString('pt-BR');
+}
+
+function rankRows(entries, total, color){
+  if (!entries.length) return '<div class="leaders-more">sem vendas no período</div>';
+  var max = entries[0][1] || 1;
+  return entries.map(function(e,i){
+    return '<div class="rank-row"><span class="r-n">'+(i+1)+'</span>'
+      + '<span class="r-name"><span class="nm">'+esc(e[0])+'</span>'
+      + '<span class="bar"><i style="width:'+Math.max(2,e[1]/max*100)+'%;background:'+color+'"></i></span></span>'
+      + '<span class="r-val">'+brl0(e[1])+'</span>'
+      + '<span class="r-pct">'+(total ? pct1(e[1]/total) : '—')+'</span></div>';
+  }).join('');
+}
+
+function mixRows(entries, total, color){
+  if (!entries.length || !total) return '<div class="leaders-more">sem vendas no período</div>';
+  var max = entries[0][1] || 1;
+  return entries.map(function(e){
+    return '<div class="mix-row"><span class="m-name">'+esc(e[0])+'</span>'
+      + '<span class="m-bar"><i style="width:'+Math.max(1,e[1]/max*100)+'%;background:'+color+'"></i></span>'
+      + '<span class="m-pct">'+pct1(e[1]/total)+'</span></div>';
+  }).join('');
+}
+
+/* ---------- gráfico de barras (SVG gerado) ---------- */
+function drawChart(M){
+  var W = 1160, H = 300, padT = 40, padB = 34, padL = 14, padR = 14;
+  var days = [];
+  for (var d = M.first.d; d <= M.last.d; d++) days.push({ d:d, v:M.byDay[d] || 0 });
+  var maxV = days.reduce(function(a,e){ return Math.max(a,e.v); }, 1);
+  var plotW = W - padL - padR, plotH = H - padT - padB;
+  var slot = plotW / days.length;
+  var barW = Math.min(46, slot * 0.62);
+  function x(i){ return padL + i*slot + (slot-barW)/2; }
+  function y(v){ return padT + (1 - v/maxV) * plotH; }
+  var base = padT + plotH;
+  var avgY = y(M.avg);
+
+  var svg = [];
+  svg.push('<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Faturamento por dia">');
+  svg.push('<defs>'
+    +'<linearGradient id="gBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#33604A"/><stop offset="1" stop-color="#1F3D2E"/></linearGradient>'
+    +'<linearGradient id="gMax" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5FA97C"/><stop offset="1" stop-color="#2A5240"/></linearGradient>'
+    +'<linearGradient id="gLast" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E0B45C"/><stop offset="1" stop-color="#B8862B"/></linearGradient>'
+    +'</defs>');
+  /* linha da média */
+  svg.push('<line x1="'+padL+'" y1="'+avgY+'" x2="'+(W-padR)+'" y2="'+avgY+'" stroke="#A2B5A0" stroke-width="1.5" stroke-dasharray="5 5"/>');
+  svg.push('<text x="'+padL+'" y="'+(avgY-7)+'" font-family="Oswald, Arial Narrow, sans-serif" font-size="11.5" fill="#847B67" letter-spacing="0.05em" stroke="#F2EDDF" stroke-width="4" paint-order="stroke" stroke-linejoin="round">média '+brl0(M.avg)+'</text>');
+
+  days.forEach(function(e,i){
+    var bx = x(i), isLast = (e.d === M.last.d), isMax = (e.v === maxV && maxV > 1);
+    if (e.v > 0){
+      var by = y(e.v), bh = Math.max(3, base - by);
+      var fill = isLast ? 'url(#gLast)' : (isMax ? 'url(#gMax)' : 'url(#gBar)');
+      svg.push('<rect class="cbar" data-d="'+e.d+'" data-v="'+e.v+'" x="'+bx.toFixed(1)+'" y="'+by.toFixed(1)+'" width="'+barW.toFixed(1)+'" height="'+bh.toFixed(1)+'" rx="3.5" fill="'+fill+'"/>');
+      svg.push('<text x="'+(bx+barW/2).toFixed(1)+'" y="'+(by-6).toFixed(1)+'" text-anchor="middle" font-family="Oswald, Arial Narrow, sans-serif" font-size="11" font-weight="600" fill="'+(isLast?'#8A6A1E':'#26221A')+'">'+kFmt(e.v)+'</text>');
+    } else {
+      svg.push('<rect class="cbar" data-d="'+e.d+'" data-v="0" x="'+bx.toFixed(1)+'" y="'+(base-2.5)+'" width="'+barW.toFixed(1)+'" height="2.5" rx="1" fill="#C7BFA6"/>');
+    }
+    svg.push('<text x="'+(bx+barW/2).toFixed(1)+'" y="'+(H-12)+'" text-anchor="middle" font-family="Oswald, Arial Narrow, sans-serif" font-size="10.5" fill="'+(e.v>0?'#4A443A':'#B0A78E')+'" font-weight="500">'+String(e.d).padStart(2,'0')+'</text>');
+  });
+  svg.push('<line x1="'+padL+'" y1="'+base+'" x2="'+(W-padR)+'" y2="'+base+'" stroke="#D3CBB2" stroke-width="1.5"/>');
+  svg.push('</svg>');
+  $('chartBox').innerHTML = svg.join('');
+
+  /* tooltip */
+  var tip = $('tip'), mm = String(M.last.m).padStart(2,'0');
+  $('chartBox').querySelectorAll('.cbar').forEach(function(r){
+    r.addEventListener('mousemove', function(ev){
+      var d = +r.getAttribute('data-d'), v = +r.getAttribute('data-v');
+      var nOrd = M.dayOrdersByDay[d] ? Object.keys(M.dayOrdersByDay[d]).length : 0;
+      tip.innerHTML = '<b>' + String(d).padStart(2,'0') + '/' + mm + '</b><br>'
+        + (v > 0 ? '<b>' + brl0(v) + '</b><br><span class="t-sub">' + nOrd + ' pedidos</span>' : '<span class="t-sub">sem venda</span>');
+      tip.style.display = 'block';
+      var tx = Math.min(ev.clientX + 14, window.innerWidth - 170);
+      tip.style.left = tx + 'px';
+      tip.style.top = (ev.clientY + 14) + 'px';
+    });
+    r.addEventListener('mouseleave', function(){ tip.style.display = 'none'; });
+  });
+}
+
+/* ---------- eventos de arquivo ---------- */
+var input = $('fileInput');
+input.addEventListener('change', function(){ handleFile(input.files[0]); input.value = ''; });
+$('dropzone').addEventListener('click', function(){ input.click(); });
+$('reloadBar').addEventListener('click', function(){ input.click(); });
+[$('dropzone'), $('reloadBar')].forEach(function(el){
+  el.addEventListener('keydown', function(ev){ if (ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); input.click(); } });
+});
+
+var dragDepth = 0;
+window.addEventListener('dragenter', function(ev){
+  ev.preventDefault();
+  if (ev.dataTransfer && ev.dataTransfer.types && Array.prototype.indexOf.call(ev.dataTransfer.types,'Files') >= 0){
+    dragDepth++;
+    $('dragOverlay').classList.add('on');
+  }
+});
+window.addEventListener('dragover', function(ev){ ev.preventDefault(); });
+window.addEventListener('dragleave', function(ev){
+  ev.preventDefault();
+  dragDepth = Math.max(0, dragDepth-1);
+  if (dragDepth === 0) $('dragOverlay').classList.remove('on');
+});
+window.addEventListener('drop', function(ev){
+  ev.preventDefault();
+  dragDepth = 0;
+  $('dragOverlay').classList.remove('on');
+  if (ev.dataTransfer && ev.dataTransfer.files && ev.dataTransfer.files.length) handleFile(ev.dataTransfer.files[0]);
+});
+
+$('clearData').addEventListener('click', function(ev){
+  ev.preventDefault();
+  try { localStorage.removeItem(STORE_KEY); } catch(e){}
+  location.reload();
+});
+
+/* ---------- boot: restaura o último arquivo ---------- */
+(function(){
+  try {
+    var raw = localStorage.getItem(STORE_KEY);
+    if (raw){
+      var payload = JSON.parse(raw);
+      if (payload && payload.sales && payload.sales.length) render(payload);
+    }
+  } catch(e){}
+})();
+</script>
+</body>
+</html>
