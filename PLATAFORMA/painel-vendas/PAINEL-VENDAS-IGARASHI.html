@@ -477,7 +477,7 @@ function handleFile(file){
       return;
     }
     var txt = new TextDecoder('utf-8').decode(rd.result);
-    var bad = (txt.match(/�/g) || []).length;
+    var bad = (txt.match(/\uFFFD/g) || []).length;
     if (bad > 5) txt = new TextDecoder('windows-1252').decode(rd.result);
     var parsed = parseReport(txt);
     if (!parsed || parsed.sales.length === 0) {
