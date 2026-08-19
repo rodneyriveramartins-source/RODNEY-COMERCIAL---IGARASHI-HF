@@ -217,20 +217,16 @@ input[type=file]{display:none}
     <g id="kamon-art">
       <circle r="116" fill="none" stroke="currentColor" stroke-width="15"/>
       <rect x="-130" y="-130" width="260" height="260" fill="currentColor" mask="url(#kamon-mask)"/>
-      <g fill="currentColor">
-        <g mask="url(#petal-mask)">
-          <circle cx="0" cy="-38" r="18.5"/>
-          <circle cx="0" cy="38" r="18.5"/>
-          <circle cx="-38" cy="0" r="18.5"/>
-          <circle cx="38" cy="0" r="18.5"/>
-        </g>
-        <circle r="11" fill="none" stroke="currentColor" stroke-width="7"/>
-        <g>
-          <rect x="-6" y="-6" width="12" height="12" transform="translate(22,-22) rotate(45)"/>
-          <rect x="-6" y="-6" width="12" height="12" transform="translate(22,22) rotate(45)"/>
-          <rect x="-6" y="-6" width="12" height="12" transform="translate(-22,22) rotate(45)"/>
-          <rect x="-6" y="-6" width="12" height="12" transform="translate(-22,-22) rotate(45)"/>
-        </g>
+      <g fill="currentColor" transform="scale(1.40)">
+        <path d="M 0,-14 C -11,-16 -17.5,-24 -18,-34 C -18.5,-45 -13,-52.5 -6,-53.2 C -2.8,-53.4 -0.9,-50.5 0,-46 C 0.9,-50.5 2.8,-53.4 6,-53.2 C 13,-52.5 18.5,-45 18,-34 C 17.5,-24 11,-16 0,-14 Z"/>
+        <path d="M 0,-14 C -11,-16 -17.5,-24 -18,-34 C -18.5,-45 -13,-52.5 -6,-53.2 C -2.8,-53.4 -0.9,-50.5 0,-46 C 0.9,-50.5 2.8,-53.4 6,-53.2 C 13,-52.5 18.5,-45 18,-34 C 17.5,-24 11,-16 0,-14 Z" transform="rotate(90)"/>
+        <path d="M 0,-14 C -11,-16 -17.5,-24 -18,-34 C -18.5,-45 -13,-52.5 -6,-53.2 C -2.8,-53.4 -0.9,-50.5 0,-46 C 0.9,-50.5 2.8,-53.4 6,-53.2 C 13,-52.5 18.5,-45 18,-34 C 17.5,-24 11,-16 0,-14 Z" transform="rotate(180)"/>
+        <path d="M 0,-14 C -11,-16 -17.5,-24 -18,-34 C -18.5,-45 -13,-52.5 -6,-53.2 C -2.8,-53.4 -0.9,-50.5 0,-46 C 0.9,-50.5 2.8,-53.4 6,-53.2 C 13,-52.5 18.5,-45 18,-34 C 17.5,-24 11,-16 0,-14 Z" transform="rotate(270)"/>
+        <path d="M 0,-15 C -5.5,-22 -5.5,-33 0,-41 C 5.5,-33 5.5,-22 0,-15 Z" transform="rotate(45)"/>
+        <path d="M 0,-15 C -5.5,-22 -5.5,-33 0,-41 C 5.5,-33 5.5,-22 0,-15 Z" transform="rotate(135)"/>
+        <path d="M 0,-15 C -5.5,-22 -5.5,-33 0,-41 C 5.5,-33 5.5,-22 0,-15 Z" transform="rotate(225)"/>
+        <path d="M 0,-15 C -5.5,-22 -5.5,-33 0,-41 C 5.5,-33 5.5,-22 0,-15 Z" transform="rotate(315)"/>
+        <circle r="10" fill="none" stroke="currentColor" stroke-width="6.5"/>
       </g>
     </g>
     <mask id="kamon-mask" maskUnits="userSpaceOnUse" x="-130" y="-130" width="260" height="260">
@@ -240,19 +236,12 @@ input[type=file]{display:none}
         <ellipse cx="-55" cy="0" rx="49" ry="43"/>
         <ellipse cx="55" cy="0" rx="49" ry="43"/>
       </g>
-      <g fill="#000" transform="scale(0.74)">
+      <g fill="#000" transform="scale(0.85)">
         <ellipse cx="0" cy="-55" rx="43" ry="49"/>
         <ellipse cx="0" cy="55" rx="43" ry="49"/>
         <ellipse cx="-55" cy="0" rx="49" ry="43"/>
         <ellipse cx="55" cy="0" rx="49" ry="43"/>
       </g>
-    </mask>
-    <mask id="petal-mask" maskUnits="userSpaceOnUse" x="-130" y="-130" width="260" height="260">
-      <rect x="-130" y="-130" width="260" height="260" fill="#fff"/>
-      <circle cx="0" cy="-38" r="6.5" fill="#000"/>
-      <circle cx="0" cy="38" r="6.5" fill="#000"/>
-      <circle cx="-38" cy="0" r="6.5" fill="#000"/>
-      <circle cx="38" cy="0" r="6.5" fill="#000"/>
     </mask>
   </defs>
 </svg>
