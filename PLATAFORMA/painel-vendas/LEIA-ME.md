@@ -16,7 +16,8 @@
 - Reconhece: linha-resumo do produto (12 células, unidade SC/CX), seções `Mining - PRODUTO`, linhas de pedido (14 células: nº, data, cliente, qtde, preço, total). Ignora `TOTAIS MINING` e cabeçalhos.
 - Se receber um Excel binário/xlsx (salvo por cima pelo Excel), avisa e pede o export original — não inventa número.
 - Pedidos fora do mês do último dia do arquivo são ignorados **e avisados** na Leitura Executiva.
-- Visual: modelo 46.45 (creme + painel verde-floresta + painel marrom-terra), paleta 47.50 em tokens CSS, tipografia Oswald + Lora (Google Fonts com fallback offline), logo kamon recriada em **SVG vetorial sem fundo** (ataca a pendência "logo como arquivo próprio no repo" do LEIA-ME do hub).
+- Visual: modelo 46.45 (creme + painel verde-floresta + painel marrom-terra), paleta 47.50 em tokens CSS, tipografia Oswald + Lora (Google Fonts com fallback offline).
+- Logo: **distintivo oficial 2026** (kamon dourado sobre disco vinho, enviado por Rodney em 18/08) recriado em SVG vetorial com gradiente dourado — sem fundo, escala de 58px a impressão. A arte bitmap original ainda não está no Drive/repo (pendência "logo como arquivo próprio no repo" segue aberta; o SVG cobre o uso no painel).
 
 ## Evidência da entrega (arquivo real de 18/08/2026)
 22 verificações automatizadas (Playwright/Chromium) — todas passaram: acumulado R$ 3.464.095 · média diária (18 dias) R$ 192.450 · 444 pedidos · 191 clientes · ticket R$ 7.802 · venda do dia R$ 45.299 (▼76,5%, 22·20, ticket R$ 2.059) · top 5 = 33,9% · mix Batata 71,8% · líder BATATA ESPECIAL 28.521 SC / R$ 2.201.430 · restauração via localStorage após reabrir.
