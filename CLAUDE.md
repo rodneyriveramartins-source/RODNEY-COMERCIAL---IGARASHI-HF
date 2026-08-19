@@ -3,6 +3,8 @@
 
 **Versão:** 1.0 · 2026-07-13 · Erros desta central viram R-xxx no Código-Fonte, como qualquer outro erro.
 
+**Código-Fonte Rodney carregado junto (item 2 da precedência — acima desta Central):** @CLAUDE_GLOBAL.md
+
 ---
 
 ## 0. ORDEM DE PRECEDÊNCIA (em conflito, o de cima vence)
